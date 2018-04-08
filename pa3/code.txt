@@ -1,1 +1,1 @@
-FOR (i, 10, ++)BEGINFOR (j, 10, ++)BEGANsum=sum + i + j;ENDEND if this is printed then test successful
+FOR ((i, 10, ++)BEGINsum=sum + i + j;
