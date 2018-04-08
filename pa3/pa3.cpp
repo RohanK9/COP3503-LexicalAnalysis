@@ -37,17 +37,17 @@ int main(){
 			parenthesisStack.push("(");
 		}
 		else if(inputTxt.at(i) == ')'){
-			if(parenthesisStack.isEmpty() == true){
+			if(parenthesisStack.isEmpty()){
 				errorStack.push(")");
 			}
-			else if(parenthesisStack.isEmpty() == false){
+			else{
 				parenthesisStack.pop();
 			}
 		}
 
 	}
 
-	if(parenthesisStack.isEmpty() == false){
+	if(!parenthesisStack.isEmpty()){
 		errorStack.push("(");
 	}
 	errorStack.print();
