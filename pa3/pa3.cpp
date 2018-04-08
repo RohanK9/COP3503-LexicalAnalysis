@@ -10,17 +10,21 @@ int main(){
 	string fileName;
 	cin>>fileName;
 
-	//contents of the .txt file is saved into inputTxt string
+	fstream file;
 	string inputTxt;
-	ifstream myfile(fileName);
-	if(!myfile){
-		return -1;
+
+	const char * fileNameToString = fileName.c_str();
+	file.open(fileNameToString);
+
+	if(file.is_open()){
+		while(file.good()){
+			string temp;
+			file >> temp;
+			inputTxt = inputTxt + temp;
+		}
 	}
 
-	while(getline(myfile, inputTxt)){
-		//cout << inputTxt << endl;
-	}
-	myfile.close();
+	file.close();
 
 	//inputLength is the lenght of the inputTxt string
 	int inputLength = inputTxt.length();
@@ -30,6 +34,24 @@ int main(){
 
 	//stack to keep track of syntax errors
 	stack errorStack;
+
+	//stack to keep track of delimiters 
+	stack delemiterStack;
+
+	//booleans to ensure each delimiter only appears once in delimiter stack
+	bool commaFirstInstance = true;
+	bool semiFirstInstance = true;
+
+	//stack to keep track of operators
+	stack operatorStack;
+
+	//booleans to ensure each operator only appears once in operator stack
+	bool plusFirstInstance = true;
+	bool minusFirstInstance = true;
+	bool multiplyFirstInstance = true;
+	bool divideFirstInstance = true;
+	bool eqaulFirstInstance = true;
+	bool incrementFirstInstance = true;
 
 	for(int i = 0; i < inputLength; i++){
 
@@ -45,12 +67,48 @@ int main(){
 			}
 		}
 
+		if(inputTxt.at(i) == ',' && commaFirstInstance){
+			delemiterStack.push(",");
+			commaFirstInstance = false;
+		}
+		else if(inputTxt.at(i) == ';' && semiFirstInstance){
+			delemiterStack.push(";");
+			semiFirstInstance = false;
+		}
+
+		if(inputTxt.at(i) == '+' && plusFirstInstance){
+			operatorStack.push("+");
+			plusFirstInstance = false;
+		}
+		 else if(inputTxt.at(i) == '-' && minusFirstInstance){
+		 	operatorStack.push("-");
+		 	minusFirstInstance = false;
+		 }
+		 else if(inputTxt.at(i) == '*' && multiplyFirstInstance){
+		 	operatorStack.push("*");
+		 	multiplyFirstInstance = false;
+		 }
+		 else if(inputTxt.at(i) == '/' && divideFirstInstance){
+		 	operatorStack.push("/");
+		 	divideFirstInstance = false;
+		 }
+		 else if(inputTxt.at(i) == '=' && eqaulFirstInstance){
+		 	operatorStack.push("=");
+		 	eqaulFirstInstance = false;
+		 }
+		 else if(inputTxt.at(i) == '+' && inputTxt.at(i+1) == '+' && incrementFirstInstance){
+		 	operatorStack.push("++");
+		 	incrementFirstInstance = false;
+		 }
+
 	}
 
 	if(!parenthesisStack.isEmpty()){
 		errorStack.push("(");
 	}
 	errorStack.print();
+	delemiterStack.print();
+	operatorStack.print();
 
 	
 
