@@ -19,9 +19,10 @@ public:
 	stack();
 	void push(string toPush);
 	string pop();
-	string peek();
 	void print();
 	bool isEmpty();
+	bool contains(string toCheck);
+	node* getHead();
 };
 
 
