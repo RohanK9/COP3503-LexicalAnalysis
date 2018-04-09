@@ -4,14 +4,14 @@
 #include <ctype.h>
 using namespace std;
 
-class node{
+class node {
 public:
 	string data;
 	node* next;
 	node();
 };
 
-class stack{
+class stack {
 private:
 	node* head;
 
