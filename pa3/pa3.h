@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <ctype.h>
 using namespace std;
 
 class node{
@@ -22,3 +23,5 @@ public:
 	void print();
 	bool isEmpty();
 };
+
+

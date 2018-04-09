@@ -1,1 +1,7 @@
-FOR (i, 10, ++)BEGINFOR (j, 10, ++)BEGINsum=sum + i + j;ENDFOR (k, 5, ++)BEGINmul=mul * k;ENDEND
+FOR (i, 10, ++)
+BEGIN
+  FOR (j, 10, ++)))(
+  BEGAN
+    sum=sum + i + j;
+  END
+END

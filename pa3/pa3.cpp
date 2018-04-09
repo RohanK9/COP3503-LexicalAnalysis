@@ -20,7 +20,7 @@ int main(){
 		while(file.good()){
 			string temp;
 			file >> temp;
-			inputTxt = inputTxt + temp;
+			inputTxt = inputTxt + temp + " ";
 		}
 	}
 
@@ -52,6 +52,17 @@ int main(){
 	bool divideFirstInstance = true;
 	bool eqaulFirstInstance = true;
 	bool incrementFirstInstance = true;
+
+
+	//stack to keep track of constants
+	stack constantStack;
+	string temp;
+
+	//stack to keep track of keywords
+	stack keywordStack;
+	
+	//stack to keep track of idenitifiers
+	stack idenitifierStack;
 
 	for(int i = 0; i < inputLength; i++){
 
@@ -101,14 +112,78 @@ int main(){
 		 	incrementFirstInstance = false;
 		 }
 
+
+		 if(isdigit(inputTxt.at(i))){
+		 	temp = temp + inputTxt.at(i);
+		 	while(isdigit(inputTxt.at(i+1))){
+		 		temp = temp + inputTxt.at(i+1);
+		 		++i;
+		 	}
+		 }
+
+		 if(isupper(inputTxt.at(i))){
+
+		 	if(inputTxt.at(i) == 'F' && inputTxt.at(i+1) == 'O' && inputTxt.at(i+2) == 'R'){
+		 		keywordStack.push("FOR");
+		 	}
+		 	else if(inputTxt.at(i) == 'B' && inputTxt.at(i+1) == 'E' && inputTxt.at(i+2) == 'G' && inputTxt.at(i+3) == 'I' && inputTxt.at(i+4) == 'N'){
+		 		keywordStack.push("BEGIN");
+		 	}
+		 	else if(inputTxt.at(i) == 'E' && inputTxt.at(i+1) == 'N' && inputTxt.at(i+2) == 'D'){
+		 		keywordStack.push("END");
+		 	}
+
+		 	
+		 	string temp1;
+		 	for(int j = i; inputTxt.at(j) != ' '; ++j){
+		 		temp1 = temp1 + inputTxt.at(j);
+		 		i = j;
+		 	}
+
+		 	if(temp1 != "FOR" && temp1 != "BEGIN" && temp1 != "END"){
+		 		errorStack.push(temp1);
+		 	}
+
+		}
+
+		if(islower(inputTxt.at(i))){
+			string temp2;
+			for(int j = i; islower(inputTxt.at(j)); ++j){
+				temp2 = temp2 + inputTxt.at(j);
+				i = j;
+			}
+			idenitifierStack.push(temp2);
+
+
+		}
+
+
 	}
+
 
 	if(!parenthesisStack.isEmpty()){
 		errorStack.push("(");
 	}
-	errorStack.print();
-	delemiterStack.print();
+	
+	cout << "Keywords: ";
+	keywordStack.print();
+
+	cout << "Idenitifier: ";
+	idenitifierStack.print();
+
+	cout << "Constant: ";
+	constantStack.push(temp);
+	constantStack.print();
+
+	cout << "Operators: ";
 	operatorStack.print();
+
+	cout << "Delimiter: ";
+	delemiterStack.print();
+
+	cout << endl;
+	cout << "Syntax Error(s): ";
+	errorStack.print();
 
 	
 
@@ -160,11 +235,12 @@ void stack::print(){
 	else{
 	curr = head;
 		while(curr->next != NULL){
-			cout<<curr->data<<endl;
+			cout<<curr->data + " ";
 			curr = curr->next;
 		}
-		cout<<curr->data<<endl;
+		cout<<curr->data + " ";
 	}
+	cout<<endl;
 }
 
 string stack::peek(){
@@ -187,3 +263,13 @@ bool stack::isEmpty(){
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
